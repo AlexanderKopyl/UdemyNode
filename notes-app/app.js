@@ -27,7 +27,7 @@ yargs.command({
    }
 });
 
-//Create add command
+//Create remove command
 yargs.command({
     command:'remove',
     describe: 'Remove a note',
@@ -42,20 +42,28 @@ yargs.command({
         notes.removeNote(argv.title);
     }
 });
-//Create add command
+//Create read command
 yargs.command({
     command:'read',
     describe: 'Read a note',
-    handler() {
-        console.log('Read a note')
+    builder:{
+        title:{
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler(argv) {
+        notes.readNote(argv.title)
     }
 });
-//Create add command
+//Create list command
 yargs.command({
     command:'list',
     describe: 'Add a new note',
     handler() {
-        console.log('Show all note!')
+        console.log(chalk.red('Your notes'));
+        notes.listNote();
     }
 });
 yargs.parse();
