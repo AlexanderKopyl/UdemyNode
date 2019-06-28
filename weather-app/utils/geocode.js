@@ -20,8 +20,8 @@ const geocode = (address,callback) =>{
         }else{
             // const dnipro = body.features.filter((item) => item.id === 'poi.2808908687579');
             callback(undefined,{
-                latitude: body.features[0].center[0],
-                longtitude:  body.features[0].center[1],
+                latitude: body.features[0].center[1],
+                longtitude:  body.features[0].center[0],
                 place_name:body.features[0].place_name
             });
         }

@@ -11,7 +11,7 @@ const url = {
     }
 };
 
-const forrecast = (long, lat, callback) => {
+const forecast = (long, lat, callback) => {
     url.lat = lat;
     url.long = long;
 
@@ -31,4 +31,4 @@ const forrecast = (long, lat, callback) => {
 };
 
 
-module.exports = forrecast;
+module.exports = forecast;
