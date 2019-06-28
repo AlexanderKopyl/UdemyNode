@@ -21,18 +21,29 @@ const mapBoxUrl = {
 
 
 request({url:mapBoxUrl.out(), json: true},(error, response, body)=>{
-    // console.log('error:', error); // Print the error if one occurred
-    // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    // console.log('body:', body); // Print the HTML for the Google homepage.
-    const dnipro = body.features.filter((item) => item.id === 'poi.2808908687579');
-    url.long = dnipro[0].center[1];
-    url.lat = dnipro[0].center[0];
+    if(error){
+        console.log("Error connection");
+    }else{
+        const dnipro = body.features.filter((item) => item.id === 'poi.2808908687579');
+        url.long = dnipro[0].center[1];
+        url.lat = dnipro[0].center[0];
+    }
+
 
     request({url:url.out(), json: true},(error, response, body)=>{
-        const temperature = body.currently.apparentTemperature;
-        const rainChance = body.currently.precipProbability;
+        if(error){
+            console.log('Error connection');
+        }else if( body.error){
+            console.log('Error: Not enough information');
+        }else{
+            const temperature = body.currently.apparentTemperature;
+            const rainChance = body.currently.precipProbability;
+            const summary = body.daily.data[0].summary;
+            console.log(`${summary} It is currently ${temperature} degrees out. There is a ${rainChance}% chance of rain.`);
 
-        console.log(`It is currently ${temperature} degrees out. There is a ${rainChance}% chance of rain.`);
+        }
+
+
 
     });
 });
