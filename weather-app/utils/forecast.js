@@ -15,15 +15,17 @@ const forecast = (long, lat, callback) => {
     url.lat = lat;
     url.long = long;
 
-    request({url: url.out(), json: true}, (error, response, body) => {
+    request({url: url.out(), json: true}, (error, response, {currently:{apparentTemperature,precipProbability},errorB,daily:{data:[item1]}}) => {
+        // const {summary} = item1;
         if (error) {
             callback('Error connection',undefined);
-        } else if (body.error) {
+        } else if (errorB) {
             callback('Error: Not enough information',undefined);
         } else {
-            const temperature = body.currently.apparentTemperature;
-            const rainChance = body.currently.precipProbability;
-            const summary = body.daily.data[0].summary;
+            const temperature = apparentTemperature;
+            const rainChance = precipProbability;
+            const summary = item1.summary;
+
             callback(undefined,`${summary} It is currently ${temperature} degrees out. There is a ${rainChance}% chance of rain.`);
 
         }

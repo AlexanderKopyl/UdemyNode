@@ -12,17 +12,25 @@ const geocode = (address,callback) =>{
         }
     };
 
-    request({url:mapBoxUrl.out(), json: true},(error, response, body)=>{
+    request({url:mapBoxUrl.out(), json: true},(error, response, {features:[item1],features})=>{
+        const {center:[itemLat,item2Long] ,place_name} = item1;
+
+        console.log()
         if(error){
             callback("Error connection",undefined);
-        }else if(body.features.length === 0){
+        }else if(features.length === 0){
             callback('Undefined place try another serch',undefined);
         }else{
             // const dnipro = body.features.filter((item) => item.id === 'poi.2808908687579');
+            // callback(undefined,{
+            //     latitude: item1.center[1],
+            //     longtitude:  item1.center[0],
+            //     place_name: item1.place_name
+            // });
             callback(undefined,{
-                latitude: body.features[0].center[1],
-                longtitude:  body.features[0].center[0],
-                place_name:body.features[0].place_name
+                latitude:itemLat,
+                longtitude:item2Long,
+                place_name
             });
         }
     });
